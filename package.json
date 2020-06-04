@@ -1,0 +1,16 @@
+{
+  "name": "cypress_integromat",
+  "version": "1.0.0",
+  "description": "integromat cypress application assignment",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "author": "Jozef Čambora",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^4.7.0",
+    "typescript": "^3.9.3"
+  }
+}
