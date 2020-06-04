@@ -2,11 +2,11 @@
 
 describe(`Integromat assignment tests`, () => {
   it(`TESTCASE 01`, () => {
-    cy.visit(`https://www.integromat.com/en/login`)
+    cy.visit(Cypress.env(`loginUrl`))
     cy.get(`[name="email"]`)
-      .type(`happywhatever@email.cz`)
+      .type(Cypress.env(`userEmail`))
     cy.get(`[name="password"]`)
-      .type(`HireTheHeckOutOfMe123;`)
+      .type(Cypress.env(`userPassword`))
     cy.get(`[type="button"]`).click()
     cy.get(`[href="/user"] > div`)
       .contains(`Joztest Cambora`)

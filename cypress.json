@@ -1,1 +1,8 @@
-{}
+{
+  "env": {
+    "loginUrl": "https://www.integromat.com/en/login",
+    "userEmail": "happywhatever@email.cz",
+    "userPassword": "HireTheHeckOutOfMe123;"
+
+  }
+}
