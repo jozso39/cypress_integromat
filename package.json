@@ -12,5 +12,8 @@
   "dependencies": {
     "cypress": "^4.7.0",
     "typescript": "^3.9.3"
+  },
+  "devDependencies": {
+    "@bahmutov/add-typescript-to-cypress": "^2.1.2"
   }
 }
