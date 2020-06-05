@@ -1,16 +1,26 @@
 # Integromat Cypress Job Application Assignment
 
-I am using Cypress with typescript. Also I am not using any page objects since the test is not very big (thats what I tought when I started with it).
-Right now I finished testceses 1,2 and 3 and sometimes I get some errors. The selectors are not very robust, the application doesn't have any test-helping selectors like `data-cy`.
-Also I am still getting errors when running headlessly so I want to fix them later.
+I am using Cypress with TypeScript. Also I am not using the Page Object model since the test is not very big.
 
+#### Work so far
+
+Right now I finished testceses 1,2 and 3 and sometimes I get some errors. The selectors are not very robust, the application doesn't have any test-helping selectors like `data-cy`.
+Also I am still getting errors when running headlessly and sometimes Cypress doesn't type the whole name of a Test Data Store, I want to fix that later.
+
+#### Instalation
+
+1. clone the repo with `git clone https://github.com/jozso39/cypress_integromat.git`
+2. install dependencies with `npm install`
+3. run it in browser with `npm run cypress:open`
 
 ### Prerequisites
+
 Create an account at Integromat.com: https://www.integromat.com/en/register and do not forget to make a
 note of Name, Email and Password given values. You will need these credentials later in the following test
 cases.
 
 ### Assignment
+
 There are in total four test cases listed below. Two of them are mandatory. Please process at least both
 mandatory test cases via Cypress.io automation tool. Once you are finished, compress the whole Cypress
 folder and send it to simona.taseva@integromat.com
@@ -144,5 +154,3 @@ Scenarios could be deleted by dropdown. Data stores and data structures could be
 41. In a bottom menu click on Run once button to play recently created scenario
 42. In a left pane at the bottom click on Name (Sign out option appears)
 43. Click on Sign out button
-
-
