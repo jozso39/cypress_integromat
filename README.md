@@ -1,4 +1,9 @@
-# integromat cypress application assignment
+# Integromat Cypress Job Application Assignment
+
+I am using Cypress with typescript. Also I am not using any page objects since the test is not very big (thats what I tought when I started with it).
+Right now I finished testceses 1,2 and 3 and sometimes I get some errors. The selectors are not very robust, the application doesn't have any test-helping selectors like `data-cy`.
+Also I am still getting errors when running headlessly so I want to fix them later.
+
 
 ### Prerequisites
 Create an account at Integromat.com: https://www.integromat.com/en/register and do not forget to make a
