@@ -48,7 +48,7 @@ describe(`Integromat assignment tests`, () => {
       cy.checkDataStore(`Test Data Store`);
       cy.gotoDataStructures();
       cy.checkDataStructure(`Test Data Structure`);
-      //by the way, it really should be "it us used by THESE datastores"
+      //by the way, it really should be "it is used by THESE datastores"
       cy.checkStructureDeleteModal(
         `Can't delete UDT because it is used by those datastores: Test Data Store.`
       );
