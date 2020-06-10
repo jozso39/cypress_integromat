@@ -69,46 +69,17 @@ describe(`Integromat assignment tests`, () => {
   });
   context(`Optional tasks`, () => {
     it.only(`TESTCASE 03`, () => {
-      /* cy.gotoDataStores();
-      cy.createDataStore(`Test Data Store`, `Test Data Structure`);
-      cy.checkDataStore(`Test Data Store`); */
+      //TODO: un-comment store creation
+      // cy.gotoDataStores();
+      // cy.createDataStore(`Test Data Store`, `Test Data Structure`);
+      // cy.checkDataStore(`Test Data Store`);
       cy.gotoDataStructures();
       cy.checkDataStructure(`Test Data Structure`);
-      //click on delete
-      cy.get(`button.i-remover`).click().click();
-      //check popup
-      cy.get(`.modal-dialog`)
-        .as(`dialog`)
-        .find(`p`)
-        .should(
-          `have.text`,
-          `Can't delete UDT because it is used by those datastores: Test Data Store.`
-        );
-      //waiting for animation to end
-      //cy.wait(300);
-      //close popup
-      cy.get(`@dialog`)
-        .find(`button[data-dismiss="modal"]`)
-        .contains(`Close`)
-        .click();
+      cy.checkStructureDeleteModal(
+        `Can't delete UDT because it is used by those datastores: Test Data Store.`
+      );
       cy.gotoDataStores();
-      //take the ID from the button and visit the new page (cypress cannot handle newly opened windows)
-      //also there is no "target,blank" attribute, so I need to hack it like this
-      cy.get(`button.i-browse-datastore`).then((btn) => {
-        //get my store ID
-        const storeId = btn![0].attributes.getNamedItem(`data-id`).value;
-        //visit the new URL
-        cy.visit(`/datastore/${storeId}/browse`);
-      });
-      //click Add button
-      cy.get(`button`).contains(`Add`).click();
-      //type 1 to key field
-      cy.get(`input[name="key"]`).type(`1`);
-      //type 2020 to number field
-      cy.get(`input[name="Number"]`).type(`2020`);
-      //save settings
-      cy.get(`button`).contains(`Save`).click();
-      cy.visit("/");
+      cy.addDataStoreRecord(`1`, `2020`);
     });
     it(`TESTCASE 04`, () => {});
   });

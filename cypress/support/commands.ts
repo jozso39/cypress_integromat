@@ -15,8 +15,8 @@ Cypress.Commands.add(
   `loginAndNameCheck`,
   (loginPageUrl, email, password, name) => {
     cy.visit(loginPageUrl);
-    cy.get(`[name="email"]`).type(email);
-    cy.get(`[name="password"]`).type(password);
+    cy.get(`[name="email"]`).type(email, { delay: 50 });
+    cy.get(`[name="password"]`).type(password, { delay: 50 });
     cy.get(`[type="button"]`).click();
     cy.get(`[href="/user"] > div:not(.nav-icon)`)
       .as(`loggedUserName`)
@@ -51,7 +51,7 @@ Cypress.Commands.add(`createDataStore`, (store, structure) => {
       cy.get(`input[name="name"]`)
         .click() //testcase said explicitly to click it
         .clear()
-        .type(store);
+        .type(store, { delay: 50 });
       cy.get(`button`).contains(`Add`).click();
     });
 
@@ -63,7 +63,7 @@ Cypress.Commands.add(`createDataStore`, (store, structure) => {
       cy.get(`input[name="udt_name"]`)
         .click() //testcase said explicitly to click it
         .clear()
-        .type(structure);
+        .type(structure, { delay: 50 });
 
       cy.get(`button`).contains(`Add item`).click();
     });
@@ -110,6 +110,42 @@ Cypress.Commands.add(`createDataStore`, (store, structure) => {
   });
 });
 
+Cypress.Commands.add(`checkStructureDeleteModal`, (modalText) => {
+  //click on delete
+  cy.get(`button.i-remover`).click().click();
+  //test within popup
+  cy.get(`.modal-dialog`).within((popup) => {
+    //check text in popup
+    cy.get(`.modal-body > p`).should(`have.text`, modalText);
+    //close popup
+    cy.wrap(popup)
+      .find(`button[data-dismiss="modal"]`)
+      .contains(`Close`)
+      .wait(50)
+      .click();
+  });
+});
+
+Cypress.Commands.add(`addDataStoreRecord`, (key, number) => {
+  //take the ID from the button and visit the new page (cypress cannot handle newly opened windows)
+  //also there is no "target=blank" attribute, so I need to hack it like this
+  cy.get(`button.i-browse-datastore`).then((btn) => {
+    //get my store ID
+    const storeId = btn[0].attributes.getNamedItem(`data-id`).value;
+    //visit the new URL
+    cy.visit(`/datastore/${storeId}/browse`);
+  });
+  //click Add button
+  cy.get(`button`).contains(`Add`).click();
+  //type 1 to key field
+  cy.get(`input[name="key"]`).type(key);
+  //type 2020 to number field
+  cy.get(`input[name="Number"]`).type(number);
+  //save settings
+  cy.get(`button`).contains(`Save`).click();
+  cy.visit("/");
+});
+
 Cypress.Commands.add(`checkDataStore`, (store) => {
   cy.get(`#all.active.datastores`)
     .find(`.datastore:not([style="display: none;"])`)
@@ -149,6 +185,8 @@ declare namespace Cypress {
     ): Chainable;
 
     createDataStore(store: string, structure: string): Chainable;
+    checkStructureDeleteModal(modalText: string): Chainable;
+    addDataStoreRecord(key: string, number: string): Chainable;
     logout(): Chainable;
     gotoDataStores(): Chainable;
     gotoDataStructures(): Chainable;
