@@ -68,18 +68,14 @@ describe(`Integromat assignment tests`, () => {
     });
   });
   context(`Optional tasks`, () => {
-    it(`TESTCASE 03`, () => {
-      cy.gotoDataStores();
+    it.only(`TESTCASE 03`, () => {
+      /* cy.gotoDataStores();
       cy.createDataStore(`Test Data Store`, `Test Data Structure`);
-      cy.checkDataStore(`Test Data Store`);
+      cy.checkDataStore(`Test Data Store`); */
       cy.gotoDataStructures();
       cy.checkDataStructure(`Test Data Structure`);
       //click on delete
-      cy.get(`button.i-remover`)
-        .click()
-        .should(`have.attr`, `data-rly`, `true`)
-        .and(`contain.text`, `Really?`)
-        .click();
+      cy.get(`button.i-remover`).click().click();
       //check popup
       cy.get(`.modal-dialog`)
         .as(`dialog`)
@@ -97,8 +93,11 @@ describe(`Integromat assignment tests`, () => {
         .click();
       cy.gotoDataStores();
       //take the ID from the button and visit the new page (cypress cannot handle newly opened windows)
+      //also there is no "target,blank" attribute, so I need to hack it like this
       cy.get(`button.i-browse-datastore`).then((btn) => {
+        //get my store ID
         const storeId = btn[0].attributes.getNamedItem(`data-id`).value;
+        //visit the new URL
         cy.visit(`${data.baseUrl}/datastore/${storeId}/browse`);
       });
       //click Add button
@@ -111,5 +110,6 @@ describe(`Integromat assignment tests`, () => {
       cy.get(`button`).contains(`Save`).click();
       cy.visit(data.baseUrl);
     });
+    it(`TESTCASE 04`, () => {});
   });
 });
