@@ -1,5 +1,4 @@
 {
-  "baseUrl": "https://www.integromat.com",
   "loginPath": "/en/login",
   "user": {
     "email": "happywhatever@email.cz",

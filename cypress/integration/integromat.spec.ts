@@ -12,7 +12,7 @@ describe(`Integromat assignment tests`, () => {
   beforeEach(() => {
     //calling custom command from support/commands.ts
     cy.loginAndNameCheck(
-      data.baseUrl + data.loginPath,
+      data.loginPath,
       data.user.email,
       data.user.password,
       data.user.name
@@ -96,9 +96,9 @@ describe(`Integromat assignment tests`, () => {
       //also there is no "target,blank" attribute, so I need to hack it like this
       cy.get(`button.i-browse-datastore`).then((btn) => {
         //get my store ID
-        const storeId = btn[0].attributes.getNamedItem(`data-id`).value;
+        const storeId = btn![0].attributes.getNamedItem(`data-id`).value;
         //visit the new URL
-        cy.visit(`${data.baseUrl}/datastore/${storeId}/browse`);
+        cy.visit(`/datastore/${storeId}/browse`);
       });
       //click Add button
       cy.get(`button`).contains(`Add`).click();
@@ -108,7 +108,7 @@ describe(`Integromat assignment tests`, () => {
       cy.get(`input[name="Number"]`).type(`2020`);
       //save settings
       cy.get(`button`).contains(`Save`).click();
-      cy.visit(data.baseUrl);
+      cy.visit("/");
     });
     it(`TESTCASE 04`, () => {});
   });
