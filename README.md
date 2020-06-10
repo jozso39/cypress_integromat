@@ -7,6 +7,14 @@ I am using Cypress with TypeScript. Also I am not using the Page Object model si
 Right now I finished testceses 1,2 and 3 and sometimes I get some errors. The selectors are not very robust, the application doesn't have any test-helping selectors like `data-cy`.
 Also I am still getting errors when running headlessly and sometimes Cypress doesn't type the whole name of a Test Data Store, I want to fix that later.
 
+#### Todo:
+- do the 4th assignment
+- make it run headless
+- run it on different browsers
+- fix the occasional input problem (only part of string is typed into field)
+- make the new tab redirect better (see this [repo](https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/testing-dom__tab-handling-links/cypress/integration/tab_handling_anchor_links_spec.js))
+- unify the selectors
+
 #### Instalation
 
 1. clone the repo with `git clone https://github.com/jozso39/cypress_integromat.git`
