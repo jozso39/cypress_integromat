@@ -8,18 +8,20 @@ Right now I finished testceses 1,2 and 3 and sometimes I get some errors. The se
 Also I am still getting errors when running headlessly and sometimes Cypress doesn't type the whole name of a Test Data Store, I want to fix that later.
 
 #### Todo:
+
 - do the 4th assignment
-- make it run headless
 - run it on different browsers
-- fix the occasional input problem (only part of string is typed into field)
-- make the new tab redirect better (see this [repo](https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/testing-dom__tab-handling-links/cypress/integration/tab_handling_anchor_links_spec.js))
 - unify the selectors
 
-#### Instalation
+#### Instalation and run
 
-1. clone the repo with `git clone https://github.com/jozso39/cypress_integromat.git`
-2. install dependencies with `npm install`
-3. run it in browser with `npm run cy:open`
+- clone the repo with `git clone https://github.com/jozso39/cypress_integromat.git`
+- install dependencies with `npm install`
+
+now you can use:
+
+- `npm run cy:open` to run it in browser
+- `npm run cy:run` to run it in headless mode
 
 ### Prerequisites
 
