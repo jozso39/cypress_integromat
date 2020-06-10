@@ -17,16 +17,18 @@ Cypress.Commands.add(
     cy.visit(loginPageUrl);
     cy.get(`[name="email"]`).type(email, { delay: 50 });
     cy.get(`[name="password"]`).type(password, { delay: 50 });
-    cy.get(`[type="button"]`).click();
-    cy.get(`[href="/user"] > div:not(.nav-icon)`)
+    cy.get(`button`).contains(`Sign in`).click();
+    cy.get(`a.i-signed-menu`)
       .as(`loggedUserName`)
-      .contains(name);
+      .contains(name)
+      .should(`contain.text`, name);
   }
 );
 
 Cypress.Commands.add(`logout`, () => {
-  cy.get(`@loggedUserName`).click();
-  cy.get(`a[href="/logout"]`).click();
+  //need to force it or the dialog would not show in headless run
+  cy.get(`@loggedUserName`).click({ force: true });
+  cy.get(`.list-group-item`).contains(`Sign out`).click();
 });
 
 Cypress.Commands.add(`gotoDataStores`, () => {
@@ -36,6 +38,33 @@ Cypress.Commands.add(`gotoDataStores`, () => {
 Cypress.Commands.add(`gotoDataStructures`, () => {
   cy.get(`button.nav-more`).click();
   cy.get(`.list-group-small`).contains(`Data structures`).click();
+});
+
+Cypress.Commands.add(`clearPreviousData`, () => {
+  cy.gotoDataStores();
+
+  //look into the stores
+  cy.get(`#all.active.datastores`).then((stores) => {
+    //if there are visible stores
+    if (stores.find(`.datastore:not([style="display: none;"])`).length > 0) {
+      //click on each delete button
+      cy.get(`button.i-remover`).each((el) => {
+        cy.wrap(el).click().click();
+      });
+    }
+  });
+  //go to data structures
+  cy.gotoDataStructures();
+  //look into data structures
+  cy.get(`.active.udts`).then((structures) => {
+    //if there are visible structures
+    if (structures.find(`.udt:not([style="display: none;"])`).length > 0) {
+      //click on each delete button
+      cy.get(`button.i-remover`).each((el) => {
+        cy.wrap(el).click().click();
+      });
+    }
+  });
 });
 
 Cypress.Commands.add(`createDataStore`, (store, structure) => {
@@ -72,7 +101,7 @@ Cypress.Commands.add(`createDataStore`, (store, structure) => {
   cy.get(`h1`)
     .contains(`Add item`)
     .parents(`.i-panel-nested`)
-    .as(`item`)
+    //.as(`item`)
     .within(() => {
       cy.get(`select[name="type"]`).select(`Number`);
       cy.get(`input[name="name"]`).type(`Number`);
@@ -95,7 +124,7 @@ Cypress.Commands.add(`createDataStore`, (store, structure) => {
       .within((el) => {
         cy.wrap(el).then((el) => {
           if (el.find(`option`).length < 2) {
-            cy.log(`data structure combobox is short on structures`);
+            //TODO: fix this wait
             cy.wait(500);
           } else {
             return;
@@ -183,7 +212,7 @@ declare namespace Cypress {
       password: string,
       name: string
     ): Chainable;
-
+    clearPreviousData(): Chainable;
     createDataStore(store: string, structure: string): Chainable;
     checkStructureDeleteModal(modalText: string): Chainable;
     addDataStoreRecord(key: string, number: string): Chainable;

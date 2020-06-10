@@ -1,3 +1,4 @@
 {
-  "baseUrl": "https://www.integromat.com"
+  "baseUrl": "https://www.integromat.com",
+  "viewportWidth": 1400
 }

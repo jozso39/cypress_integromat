@@ -19,7 +19,7 @@ Also I am still getting errors when running headlessly and sometimes Cypress doe
 
 1. clone the repo with `git clone https://github.com/jozso39/cypress_integromat.git`
 2. install dependencies with `npm install`
-3. run it in browser with `npm run cypress:open`
+3. run it in browser with `npm run cy:open`
 
 ### Prerequisites
 

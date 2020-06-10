@@ -4,8 +4,8 @@
   "description": "integromat cypress application assignment",
   "main": "index.js",
   "scripts": {
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "author": "Jozef Čambora",
   "license": "ISC",
