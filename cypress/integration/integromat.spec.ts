@@ -85,7 +85,7 @@ describe(`Integromat assignment tests`, () => {
           `Can't delete UDT because it is used by those datastores: Test Data Store.`
         );
       //waiting for animation to end
-      cy.wait(300);
+      //cy.wait(300);
       //close popup
       cy.get(`@dialog`)
         .find(`button[data-dismiss="modal"]`)

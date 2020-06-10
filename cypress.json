@@ -1,4 +1,4 @@
 {
   "baseUrl": "https://www.integromat.com",
-  "env": {}
+  "animationDistanceThreshold": 3
 }
