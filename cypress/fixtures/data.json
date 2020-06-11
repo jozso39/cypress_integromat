@@ -4,5 +4,13 @@
     "email": "happywhatever@email.cz",
     "password": "HireTheHeckOutOfMe123;",
     "name": "Joztest Cambora"
+  },
+  "els": {
+    "canvas": {
+      "width": 0,
+      "height": 0
+    },
+    "asideWidth": 0,
+    "inspectorMenuHeight": 0
   }
 }

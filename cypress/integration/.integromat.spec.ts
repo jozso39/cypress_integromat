@@ -55,22 +55,34 @@ describe(`Integromat assignment tests`, () => {
       cy.gotoDataStores();
       cy.addDataStoreRecord(`1`, `2020`);
     });
-    it(`TESTCASE 04`, () => {
-      cy.clearPreviousData();
-      cy.gotoDataStores();
-      cy.createDataStore(`Test Data Store`, `Test Data Structure`);
-      cy.checkDataStore(`Test Data Store`);
-      cy.gotoDataStructures();
-      cy.checkDataStructure(`Test Data Structure`);
-      //by the way, it really should be "it us used by THESE datastores"
-      cy.checkStructureDeleteModal(
-        `Can't delete UDT because it is used by those datastores: Test Data Store.`
-      );
-      cy.gotoDataStores();
-      cy.addDataStoreRecord(`1`, `2020`);
+    //TODO: remove only
+    it.only(`TESTCASE 04`, () => {
+      // cy.clearPreviousData();
+      // cy.gotoDataStores();
+      // cy.createDataStore(`Test Data Store`, `Test Data Structure`);
+      // cy.checkDataStore(`Test Data Store`);
+      // cy.gotoDataStructures();
+      // cy.checkDataStructure(`Test Data Structure`);
+      // cy.checkStructureDeleteModal(
+      //   `Can't delete UDT because it is used by those datastores: Test Data Store.`
+      // );
+      // cy.gotoDataStores();
+      // cy.addDataStoreRecord(`1`, `2020`);
 
       //go to scenarios
       cy.get(`.nav-item`).contains(`Scenarios`).click();
+      //click "Create a new scenario"
+      cy.get(`.btn-primary`).contains(`Create a new scenario`).click();
+      //Click continue button
+      cy.get(`button`).contains(`Continue`).click();
+      //
+      cy.get(`canvas`).then((canvas) => {
+        //banner is part of canvas
+        const canvasWidth = canvas[0].attributes.getNamedItem(`width`).value;
+        const canvasHeight = canvas[0].attributes.getNamedItem(`height`).value;
+        cy.wrap(canvas).click(canvasWidth / 2 + 78, canvasHeight / 2);
+      });
+      //TODO: need to click slightly higher
 
       cy.pause();
     });
