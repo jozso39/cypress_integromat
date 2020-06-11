@@ -12,7 +12,9 @@ Also I am still getting errors when running headlessly and sometimes Cypress doe
 - do the 4th assignment
 - run it on different browsers
 - unify the selectors
-- delete scenariol
+- delete scenario in delete data
+- login by request
+- delete data by request
 
 #### Instalation and run
 
