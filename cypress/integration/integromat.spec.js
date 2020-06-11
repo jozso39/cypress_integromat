@@ -9,27 +9,30 @@ describe(`Integromat assignment tests`, () => {
       data = d;
     });
   });
-  beforeEach(() => {
-    //calling custom command from support/commands.ts
-    cy.loginAndNameCheck(
-      data.loginPath,
-      data.user.email,
-      data.user.password,
-      data.user.name
-    );
-  });
-  afterEach(() => {
-    cy.logout();
-  });
 
-  context(`Mandatory tasks`, () => {
-    it(`TESTCASE 01`, () => {
-      //nothing needs to be here, everything is in before and after each
+  context(`mandatory tasks`, () => {
+    it(`TESTCASE 01 - login`, () => {
+      //this really needs to run only once
+      cy.log(`login by UI really needs to run only once`);
+      cy.visit(`/en/login`);
+      cy.get(`[name="email"]`).type(data.user.email, { delay: 50 });
+      cy.get(`[name="password"]`).type(`${data.user.password}{enter}`, {
+        delay: 50,
+      });
+      cy.get(`a.i-signed-menu`)
+        .as(`loggedUserName`)
+        .contains(data.user.name)
+        .should(`contain.text`, data.user.name);
+      cy.get(`@loggedUserName`).click();
+      cy.get(`.list-group-item`).contains(`Sign out`).click();
     });
 
-    it(`TESTCASE 02`, () => {
-      //TODO: remove cy.clearPreviousData
-      cy.clearPreviousData();
+    it(`TESTCASE 02 - create data store`, () => {
+      cy.loginByApiAndNameCheck(
+        data.user.email,
+        data.user.password,
+        data.user.name
+      );
       cy.gotoDataStores();
       cy.createDataStore(`Test Data Store`, `Test Data Structure`);
 
@@ -37,11 +40,16 @@ describe(`Integromat assignment tests`, () => {
       cy.checkDataStore(`Test Data Store`);
       cy.gotoDataStructures();
       cy.checkDataStructure(`Test Data Structure`);
+      cy.logoutByApi();
     });
   });
-
-  context(`Optional tasks`, () => {
-    it(`TESTCASE 03`, () => {
+  context(`optional tasks`, () => {
+    it(`TESTCASE 03 - try to delete data structure`, () => {
+      cy.loginByApiAndNameCheck(
+        data.user.email,
+        data.user.password,
+        data.user.name
+      );
       cy.clearPreviousData();
       cy.gotoDataStores();
       cy.createDataStore(`Test Data Store`, `Test Data Structure`);
@@ -54,20 +62,26 @@ describe(`Integromat assignment tests`, () => {
       );
       cy.gotoDataStores();
       cy.addDataStoreRecord(`1`, `2020`);
+      cy.logoutByApi();
     });
     //TODO: remove only and comments
-    it.only(`TESTCASE 04`, () => {
-      // cy.clearPreviousData();
-      // cy.gotoDataStores();
-      // cy.createDataStore(`Test Data Store`, `Test Data Structure`);
-      // cy.checkDataStore(`Test Data Store`);
-      // cy.gotoDataStructures();
-      // cy.checkDataStructure(`Test Data Structure`);
-      // cy.checkStructureDeleteModal(
-      //   `Can't delete UDT because it is used by those datastores: Test Data Store.`
-      // );
-      // cy.gotoDataStores();
-      // cy.addDataStoreRecord(`1`, `2020`);
+    it(`TESTCASE 04 - create scenario`, () => {
+      cy.loginByApiAndNameCheck(
+        data.user.email,
+        data.user.password,
+        data.user.name
+      );
+      cy.clearPreviousData();
+      cy.gotoDataStores();
+      cy.createDataStore(`Test Data Store`, `Test Data Structure`);
+      cy.checkDataStore(`Test Data Store`);
+      cy.gotoDataStructures();
+      cy.checkDataStructure(`Test Data Structure`);
+      cy.checkStructureDeleteModal(
+        `Can't delete UDT because it is used by those datastores: Test Data Store.`
+      );
+      cy.gotoDataStores();
+      cy.addDataStoreRecord(`1`, `2020`);
 
       //go to scenarios
       cy.get(`.nav-item`).contains(`Scenarios`).click();
@@ -112,6 +126,7 @@ describe(`Integromat assignment tests`, () => {
         });
 
       cy.pause();
+      cy.logoutByApi();
     });
   });
 });

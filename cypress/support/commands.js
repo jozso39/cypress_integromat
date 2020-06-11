@@ -11,24 +11,32 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add("login", (email, password) => { ... })
-Cypress.Commands.add(
-  `loginAndNameCheck`,
-  (loginPageUrl, email, password, name) => {
-    cy.visit(loginPageUrl);
-    cy.get(`[name="email"]`).type(email, { delay: 50 });
-    cy.get(`[name="password"]`).type(password, { delay: 50 });
-    cy.get(`button`).contains(`Sign in`).click();
-    cy.get(`a.i-signed-menu`)
-      .as(`loggedUserName`)
-      .contains(name)
-      .should(`contain.text`, name);
-  }
-);
 
-Cypress.Commands.add(`logout`, () => {
+Cypress.Commands.add(`loginByApiAndNameCheck`, (email, password, name) => {
+  cy.request({
+    method: `POST`,
+    url: `/api/login`,
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      Referer: "https://www.integromat.com/en/login",
+    },
+    body: {
+      email: email,
+      password: password,
+    },
+  });
+  cy.visit(`/`);
+  cy.get(`a.i-signed-menu`)
+    .as(`loggedUserName`)
+    .contains(name)
+    .should(`contain.text`, name);
+});
+
+Cypress.Commands.add(`logoutByApi`, () => {
   //need to force it or the dialog would not show in headless run
-  cy.get(`@loggedUserName`).click();
-  cy.get(`.list-group-item`).contains(`Sign out`).click();
+  cy.request(`GET`, `/logout`).then((resp) => {
+    expect(resp.status).to.eq(200);
+  });
 });
 
 Cypress.Commands.add(`gotoDataStores`, () => {
@@ -81,6 +89,7 @@ Cypress.Commands.add(`createDataStore`, (store, structure) => {
         .click() //testcase said explicitly to click it
         .clear()
         .type(store, { delay: 50 });
+
       cy.get(`button`).contains(`Add`).click();
     });
 
