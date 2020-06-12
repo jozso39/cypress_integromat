@@ -169,7 +169,6 @@ describe(`Integromat assignment tests`, () => {
       cy.logoutByApi();
     });
 
-    //TODO: remove only and comments
     it(`TESTCASE 04 - create scenario`, () => {
       cy.log(
         `Im gonna create the data store and structure via API, but not gonna check them, already tested that in testcase 03`
@@ -214,8 +213,7 @@ describe(`Integromat assignment tests`, () => {
         });
       });
       //seach data store
-      //TODO: remove force true
-      cy.get(`input.searcher`).type(`Data store`, { force: true });
+      cy.get(`input.searcher`).type(`Data store`);
       cy.get(`button[data-app="datastore"]`)
         .should(`not.have.class`, `d-none`)
         .click();
