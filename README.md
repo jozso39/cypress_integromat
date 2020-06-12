@@ -2,9 +2,9 @@
 
 I am using Cypress with TypeScript. Also I am not using the Page Object model since the test is not very big.
 
-#### Work so far
+#### Work
 
-I finished all the test cases. It took me a bit longer then I expected. The selectors are not very robust, the application doesn't have any test-helping attributes on elements like `data-cy`.
+I finished all the test cases. It took me a bit longer than I expected. The selectors are not very robust, the application doesn't have any test-helping attributes on elements like `data-cy`.
 The testcases in the assignment are repeating themselves, each next testcase adds new steps to previous one, so if I would test them as they were written, I would repeat myself a lot (and I am too dry for that).
 So I run the first occurrence of those steps in web UI as it is written in the assignment and then got the job done by web API so it run faster (and to show-off a bit).
 I don't want to work on it further, if I would want to, I would make run it on different browsers (so far only chrome and headless chromium were used), I would re-visit some selectors I made and I would change the way the data is cleared before test cases (data stores, structures, scenarios)
