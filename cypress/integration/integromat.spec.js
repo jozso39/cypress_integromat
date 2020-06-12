@@ -212,8 +212,8 @@ describe(`Integromat assignment tests`, () => {
           });
         });
       });
-      //seach data store
-      cy.get(`input.searcher`).type(`Data store`);
+      //seach data store, force it since the searchbox is hidden behind cookie consent popup
+      cy.get(`input.searcher`).type(`Data store`, { force: true });
       cy.get(`button[data-app="datastore"]`)
         .should(`not.have.class`, `d-none`)
         .click();
