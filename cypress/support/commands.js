@@ -39,114 +39,116 @@ Cypress.Commands.add(`logoutByApi`, () => {
   });
 });
 
-Cypress.Commands.add(`gotoDataStores`, () => {
-  cy.get(`div`).contains(`Data stores`).click();
-});
-
-Cypress.Commands.add(`gotoDataStructures`, () => {
-  cy.get(`button.nav-more`).click();
-  cy.get(`.list-group-small`).contains(`Data structures`).click();
+//universal visit function
+Cypress.Commands.add(`goTo`, (page) => {
+  cy.window().then((win) => {
+    let companyId = win.imt.company.id;
+    cy.visit(`/${page}/${companyId}`);
+  });
 });
 
 Cypress.Commands.add(`clearPreviousData`, () => {
-  cy.gotoDataStores();
+  //get company id
+  cy.window().then((win) => {
+    let companyId = win.imt.company.id;
+    //visit the scenarios page
+    cy.visit(`/scenarios/${companyId}`);
+    //if there are visible scenarios
+    cy.get(`.list-group.scenarios`).then((scenarios) => {
+      if (
+        scenarios.find(`.scenario:not([style="display: none;"])`).length > 0
+      ) {
+        //click on each dropdown and their delete button
+        cy.get(`button[data-toggle="dropdown"]`).each((el) => {
+          cy.wrap(el)
+            .click()
+            .siblings(`.dropdown-menu.show`)
+            .find(`button.i-remover`)
+            .click()
+            .click();
+        });
+      }
+    });
 
-  //look into the stores
-  cy.get(`#all.active.datastores`).then((stores) => {
-    //if there are visible stores
-    if (stores.find(`.datastore:not([style="display: none;"])`).length > 0) {
-      //click on each delete button
-      cy.get(`button.i-remover`).each((el) => {
-        cy.wrap(el).click().click();
-      });
-    }
-  });
-  //go to data structures
-  cy.gotoDataStructures();
-  //look into data structures
-  cy.get(`.active.udts`).then((structures) => {
-    //if there are visible structures
-    if (structures.find(`.udt:not([style="display: none;"])`).length > 0) {
-      //click on each delete button
-      cy.get(`button.i-remover`).each((el) => {
-        cy.wrap(el).click().click();
-      });
-    }
+    //go to datastores
+    cy.visit(`/datastores/${companyId}`);
+    cy.get(`#all.active.datastores`).then((stores) => {
+      //if there are visible stores
+      if (stores.find(`.datastore:not([style="display: none;"])`).length > 0) {
+        //click on each delete button
+        cy.get(`button.i-remover`).each((el) => {
+          cy.wrap(el).click().click();
+        });
+      }
+    });
+
+    cy.visit(`/udts/${companyId}`);
+    //look into data structures
+    cy.get(`.active.udts`).then((structures) => {
+      //if there are visible structures
+      if (structures.find(`.udt:not([style="display: none;"])`).length > 0) {
+        //click on each delete button
+        cy.get(`button.i-remover`).each((el) => {
+          cy.wrap(el).click().click();
+        });
+      }
+    });
   });
 });
 
-Cypress.Commands.add(`createDataStore`, (store, structure) => {
-  //click "Add data store" button
-  cy.get(`button[data-name="Add data store"]`).click();
-
-  //within "Add data store" popup
-  cy.get(`h4`)
-    .contains(`Add data store`)
-    .parents(`.modal-content`)
-    .as(`store`)
-    .within(() => {
-      cy.get(`input[name="name"]`)
-        .click() //testcase said explicitly to click it
-        .clear()
-        .type(store, { delay: 50 });
-
-      cy.get(`button`).contains(`Add`).click();
-    });
-
-  //within "Add data structure" popup
-  cy.contains(`Add data structure`)
-    .parents(`.i-panel`)
-    .as(`structure`)
-    .within(() => {
-      cy.get(`input[name="udt_name"]`)
-        .click() //testcase said explicitly to click it
-        .clear()
-        .type(structure, { delay: 50 });
-
-      cy.get(`button`).contains(`Add item`).click();
-    });
-
-  //within "Add data store" popup
-  cy.get(`h1`)
-    .contains(`Add item`)
-    .parents(`.i-panel-nested`)
-    //.as(`item`)
-    .within(() => {
-      cy.get(`select[name="type"]`).select(`Number`);
-      cy.get(`input[name="name"]`).type(`Number`);
-      cy.get(`span.custom-control-description`).contains(` Required`).click();
-      cy.get(`button`).contains(`Add`).click();
-    });
-  //get the cookie message out of the way
-  cy.get(`a[aria-label="dismiss cookie message"]`).click();
-
-  //back in "Add data structure" popup
-  cy.get(`@structure`).within(() => {
-    cy.get(`button`).contains(`Save`).click();
-  });
-
-  //back to "Add data store" popup
-  cy.get(`@store`).within(() => {
-    //verify, that Test Data Structure exists in dropdown
-    cy.get(`select[name="udt"]`)
-      .as(`sel`)
-      .within((el) => {
-        cy.wrap(el).then((el) => {
-          if (el.find(`option`).length < 2) {
-            //TODO: fix this wait
-            cy.wait(500);
-          } else {
-            return;
-          }
+Cypress.Commands.add(
+  `createDataStoreViaApi`,
+  (store, structure, numberName) => {
+    //get company ID using company API and store it
+    cy.window().then((win) => {
+      let companyId = win.imt.company.id;
+      //create data structure
+      cy.request({
+        method: `POST`,
+        url: `/api/udts/add/${companyId}?inspector=yes`,
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+          Referer: "https://www.integromat.com/datastores/" + companyId,
+        },
+        body: {
+          udt_name: structure,
+          spec: [
+            {
+              name: numberName,
+              label: "",
+              type: "number",
+              default: null,
+              required: true,
+            },
+          ],
+          strict: false,
+        },
+      }).then((resp) => {
+        const jsonResp = resp.body;
+        //check that structure was created
+        expect(jsonResp.code).to.eq(`OK`);
+        //create data store
+        cy.request({
+          method: `POST`,
+          url: `/api/datastores/add/${companyId}?inspector=yes`,
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            Referer: "https://www.integromat.com/datastores/" + companyId,
+          },
+          body: {
+            name: store,
+            udt: jsonResp.response.formula.success[0],
+            size: 1,
+          },
+        }).then((resp) => {
+          const jsonResp = resp.body;
+          //check that store was created
+          expect(jsonResp.code).to.eq(`OK`);
         });
       });
-    cy.get(`select[name="udt"]`)
-      .find(`option`)
-      .contains(structure)
-      .should(`have.text`, structure);
-    cy.get(`button`).contains(`Save`).click();
-  });
-});
+    });
+  }
+);
 
 Cypress.Commands.add(`checkStructureDeleteModal`, (modalText) => {
   //click on delete
@@ -182,22 +184,6 @@ Cypress.Commands.add(`addDataStoreRecord`, (key, number) => {
   //save settings
   cy.get(`button`).contains(`Save`).click();
   cy.visit("/");
-});
-
-Cypress.Commands.add(`checkDataStore`, (store) => {
-  cy.get(`#all.active.datastores`)
-    .find(`.datastore:not([style="display: none;"])`)
-    .contains(store)
-    .should(`have.text`, store)
-    .and(`be.visible`);
-});
-
-Cypress.Commands.add(`checkDataStructure`, (structure) => {
-  cy.get(`.active.udts`)
-    .find(`.udt:not([style="display: none;"])`)
-    .contains(structure)
-    .should(`have.text`, structure)
-    .and(`be.visible`);
 });
 
 //

@@ -2,7 +2,9 @@
   "user": {
     "email": "happywhatever@email.cz",
     "password": "HireTheHeckOutOfMe123;",
-    "name": "Joztest Cambora"
+    "name": "Joztest Cambora",
+    "companyId": 0,
+    "cookie": ""
   },
   "els": {
     "canvas": {

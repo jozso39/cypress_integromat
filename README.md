@@ -9,12 +9,9 @@ Also I am still getting errors when running headlessly and sometimes Cypress doe
 
 #### Todo:
 
-- do the 4th assignment
 - run it on different browsers
 - unify the selectors
-- delete scenario in delete data
-- login by request
-- delete data by request
+- delete data via requests
 
 #### Instalation and run
 
@@ -25,6 +22,13 @@ now you can use:
 
 - `npm run cy:open` to run it in browser
 - `npm run cy:run` to run it in headless mode
+
+#### Extra work
+The test scenarios are repeating themselves, each next testcase adds new steps to previus one, so if I would test them as they were writen, I would repeat myself a lot (and I am too dry for that).
+So I made the first occurances of those steps in web UI as in the testcases and then got the job done in web API so it would be faster (and to show that I can do that).
+
+#### Fails
+Unfortunately, I wasnt able to clear previous user data (data sets, structures, scenarios) by API, specificly, I wasnt able to get the data IDs anywhere else but from the web.
 
 ### Prerequisites
 
