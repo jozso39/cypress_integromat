@@ -24,11 +24,13 @@ now you can use:
 - `npm run cy:run` to run it in headless mode
 
 #### Extra work
-The test scenarios are repeating themselves, each next testcase adds new steps to previus one, so if I would test them as they were writen, I would repeat myself a lot (and I am too dry for that).
-So I made the first occurances of those steps in web UI as in the testcases and then got the job done in web API so it would be faster (and to show that I can do that).
+
+The testcases are repeating themselves, each next testcase adds new steps to previous one, so if I would test them as they were written, I would repeat myself a lot (and I am too dry for that).
+So I run the first occurrence of those steps in web UI as it is written in the assignment and then got the job done by web API so it run faster (and to show-off a bit).
 
 #### Fails
-Unfortunately, I wasnt able to clear previous user data (data sets, structures, scenarios) by API, specificly, I wasnt able to get the data IDs anywhere else but from the web.
+
+Unfortunately, I wasn't able to clear previous user data (data stores, structures, scenarios) by API, specifically, I wasn't able to get the data IDs necessary for API solution anywhere else but from the web.
 
 ### Prerequisites
 
