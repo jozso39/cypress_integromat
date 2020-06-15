@@ -2,14 +2,16 @@
 
 I am using Cypress with TypeScript. Also I am not using the Page Object model since the test is not very big.
 
-#### Work so far
+#### Work
 
-Right now I finished testceses 1,2 and 3 and sometimes I get some errors. The selectors are not very robust, the application doesn't have any test-helping selectors like `data-cy`.
-Also I am still getting errors when running headlessly and sometimes Cypress doesn't type the whole name of a Test Data Store, I want to fix that later.
+I finished all the test cases. It took me a bit longer than I expected. The selectors are not very robust, the application doesn't have any test-helping attributes on elements like `data-cy`.
+The testcases in the assignment are repeating themselves, each next testcase adds new steps to previous one, so if I would test them as they were written, I would repeat myself a lot (and I am too dry for that).
+So I run the first occurrence of those steps in web UI as it is written in the assignment and then got the job done by web API so it run faster (and to show-off a bit).
+I don't want to work on it further, if I would want to, I would make run it on different browsers (so far only chrome and headless chromium were used), I would re-visit some selectors I made and I would change the way the data is cleared before test cases (data stores, structures, scenarios)
 
 #### Todo:
 
-- run it on different browsers
+- make run it on different browsers
 - unify the selectors
 - delete data via requests
 
@@ -22,13 +24,6 @@ now you can use:
 
 - `npm run cy:open` to run it in browser
 - `npm run cy:run` to run it in headless mode
-
-#### Extra work
-The test scenarios are repeating themselves, each next testcase adds new steps to previus one, so if I would test them as they were writen, I would repeat myself a lot (and I am too dry for that).
-So I made the first occurances of those steps in web UI as in the testcases and then got the job done in web API so it would be faster (and to show that I can do that).
-
-#### Fails
-Unfortunately, I wasnt able to clear previous user data (data sets, structures, scenarios) by API, specificly, I wasnt able to get the data IDs anywhere else but from the web.
 
 ### Prerequisites
 
