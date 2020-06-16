@@ -70,26 +70,48 @@ Cypress.Commands.add(`clearPreviousData`, () => {
       }
     });
 
-    //go to datastores
-    cy.visit(`/datastores/${companyId}`);
-    cy.get(`#all.active.datastores`).then((stores) => {
-      //if there are visible stores
-      if (stores.find(`.datastore:not([style="display: none;"])`).length > 0) {
-        //click on each delete button
-        cy.get(`button.i-remover`).each((el) => {
-          cy.wrap(el).click().click();
+    //list data stores via request
+    cy.request({
+      method: `GET`,
+      url: `/api/datastores/list/${companyId}?inspector=yes`,
+    }).then((resp) => {
+      const jsonResp = resp.body;
+      expect(jsonResp.code).to.eq(`OK`);
+      //delete data stores via request
+      for (let i = 0; i < jsonResp.response.length; i++) {
+        cy.request({
+          method: `DELETE`,
+          url: `/api/datastore/${jsonResp.response[i].id}/delete`,
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            Referer: "https://www.integromat.com/datastores/" + companyId,
+          },
+        }).then((resp) => {
+          const jsonResp = resp.body;
+          expect(jsonResp.code).to.eq(`OK`);
         });
       }
     });
 
-    cy.visit(`/udts/${companyId}`);
-    //look into data structures
-    cy.get(`.active.udts`).then((structures) => {
-      //if there are visible structures
-      if (structures.find(`.udt:not([style="display: none;"])`).length > 0) {
-        //click on each delete button
-        cy.get(`button.i-remover`).each((el) => {
-          cy.wrap(el).click().click();
+    //list data structures via request
+    cy.request({
+      method: `GET`,
+      url: `/api/udts/list/${companyId}?inspector=yes`,
+    }).then((resp) => {
+      const jsonResp = resp.body;
+      expect(jsonResp.code).to.eq(`OK`);
+      //delete data structures via request
+      for (let i = 0; i < jsonResp.response.length; i++) {
+        cy.request({
+          method: `DELETE`,
+          url: `/api/udt/${jsonResp.response[i].id}/delete`,
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            Referer: "https://www.integromat.com/udts/" + companyId,
+          },
+        }).then((resp) => {
+          const jsonResp = resp.body;
+          expect(jsonResp.code).to.eq(`OK`);
         });
       }
     });
