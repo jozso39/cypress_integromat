@@ -1,19 +1,17 @@
 # Integromat Cypress Job Application Assignment
 
-I am using Cypress with TypeScript. Also I am not using the Page Object model since the test is not very big.
-
 #### Work
 
 I finished all the test cases. It took me a bit longer than I expected. The selectors are not very robust, the application doesn't have any test-helping attributes on elements like `data-cy`.
 The testcases in the assignment are repeating themselves, each next testcase adds new steps to previous one, so if I would test them as they were written, I would repeat myself a lot (and I am too dry for that).
-So I run the first occurrence of those steps in web UI as it is written in the assignment and then got the job done by web API so it run faster (and to show-off a bit).
-I don't want to work on it further, if I would want to, I would make run it on different browsers (so far only chrome and headless chromium were used), I would re-visit some selectors I made and I would change the way the data is cleared before test cases (data stores, structures, scenarios)
+So I run the first occurrence of those steps in web UI as it is written in the assignment and then got the job done by web API so it run faster (and to show-off a bit). Removal of previously made data structures and stores is also done via requests.
+I decided not to use page-object model since Cypress documentation advises aginst it. Instead I am using some custom commands in `support/commands.js`. For the multiple pop-up windows I am usualy using `cy.within` to work specificly inside them.
+I don't want to work on it further. But if I would, I would make it run on different browsers (so far only chrome and headless chromium are running OK), re-made some selectors and try to remove some of the unnecessary `cy.wait`.
 
 #### Todo:
 
 - make run it on different browsers
 - unify the selectors
-- delete data via requests
 
 #### Instalation and run
 
